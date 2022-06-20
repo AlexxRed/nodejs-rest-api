@@ -1,5 +1,15 @@
 const contactsOperations = require('../../models/contacts');
-const express = require('express')
+const express = require('express');
+const Joi = require('joi');
+
+const contactsAddSchema = Joi.object({
+  name: Joi.string()
+    .required(),
+  email: Joi.string()
+    .email({ minDomainSegments: 2, tlds: { allow: ['com', 'net'] } })
+    .required(),
+  phone: Joi.string().required(),
+})
 
 const router = express.Router()
 
@@ -35,8 +45,14 @@ router.get('/:contactId', async (req, res, next) => {
 
 router.post('/', async (req, res, next) => {
   try {
-    console.log(req.body);
-    res.json({ message: 'template message' })
+    // console.log(req.body);
+    const { error } = contactsAddSchema.validate(req.body)
+    if (error) {
+      throw createError(400, error.message)
+    }
+
+    const result = await contactsOperations.addContact(req.body)
+    res.status(201).json(result)
   } catch (error) {
     next(error)
   }
