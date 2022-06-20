@@ -1,78 +1,21 @@
-const contactsOperations = require('../../models/contacts');
-const express = require('express');
-const Joi = require('joi');
 
-const contactsAddSchema = Joi.object({
-  name: Joi.string()
-    .required(),
-  email: Joi.string()
-    .email({ minDomainSegments: 2, tlds: { allow: ['com', 'net'] } })
-    .required(),
-  phone: Joi.string().required(),
-})
+const ctrl = require('../../controllers/contacts')
+const express = require('express');
+const {ctrlWrapper} = require('../../services')
+
+
+
 
 const router = express.Router()
 
-router.get('/', async (_, res, next) => {
-  try {
-    const result = await contactsOperations.listContacts()
-      res.json(result);
-  } catch (error) {
-    // res.status(500).json({
-    //   message: error.message
-    // })
-    next(error)
-    }
-  }
-)
+router.get('/', ctrlWrapper(ctrl.getAll))
 
-router.get('/:contactId', async (req, res, next) => {
-  try {
-    const {contactId} = req.params
-    const result = await contactsOperations.getContactById(contactId)
-    if (!result) {
-      const error = new Error("Not found")
-      error.status = 404
-      throw error
-    }
-    res.json(result)
-  } catch (error) {
+router.get('/:contactId', ctrl.getById)
 
-    next(error)
-  }
+router.post('/', ctrl.add)
 
-})
+router.delete('/:contactId', ctrl.remove)
 
-router.post('/', async (req, res, next) => {
-  try {
-    // console.log(req.body);
-    const { error } = contactsAddSchema.validate(req.body)
-    if (error) {
-      throw createError(400, error.message)
-    }
-
-    const result = await contactsOperations.addContact(req.body)
-    res.status(201).json(result)
-  } catch (error) {
-    next(error)
-  }
-  
-})
-
-router.delete('/:contactId', async (req, res, next) => {
-  try {
-    res.json({ message: 'template message' })
-  } catch (error) {
-    next(error)
-  }
-})
-
-router.put('/:contactId', async (req, res, next) => {
-  try {
-    res.json({ message: 'template message' })
-  } catch (error) {
-    next(error)
-  }
-})
+router.put('/:contactId', ctrl.updateById)
 
 module.exports = router
