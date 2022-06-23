@@ -1,14 +1,18 @@
 const id = require("bson-objectid");
-const fs = require('fs/promises')
+const fs = require('fs/promises');
 const path = require('path');
 const contactsPath = path.join(__dirname, "contacts.json");
 
 const mongoose = require('mongoose');
-const DB_HOST = "mongodb+srv://Alex:sd22sd55hh76@cluster0.v6rqu.mongodb.net/db-contacts?retryWrites=true&w=majority"
+const dotenv = require('dotenv');
+dotenv.config()
+const {DB_HOST} = process.env
+
 mongoose.connect(DB_HOST)
   .then(()=>console.log("Database connection successful"))
   .catch(error => console.log(error.message))
-  
+
+
 async function updateContactData(contact) {
   await fs.writeFile(contactsPath, JSON.stringify(contact, null, 2));
 };
