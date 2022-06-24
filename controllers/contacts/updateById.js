@@ -1,15 +1,14 @@
-const contactsOperations = require('../../models/contacts');
-const {addSchema} = require('../../schemas/contacts')
+const { Contact, joiContactSchema } = require("../../models");
 const { createError } = require('../../services');
 
 const updateById = async (req, res, next) => {
     try {
-        const { error } = addSchema.validate(req.body)
+        const { error } = joiContactSchema.validate(req.body)
         if (error) {
         throw createError(400, error.message)
         }
         const { contactId } = req.params
-        const result = await contactsOperations.updateContact(contactId, req.body)
+        const result = await Contact.findByIdAndUpdate(contactId, req.body,{ new: true })
         if (!result) {
         throw createError(404)
         }
