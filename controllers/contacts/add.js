@@ -4,7 +4,7 @@ const { createError } = require('../../services');
 
 // const { Schema, model } = require('mongoose');
 
-// const contact = new Schema(
+// const contactSchema = new Schema(
 //     {
 //         tname: {
 //         type: String,
@@ -24,7 +24,7 @@ const { createError } = require('../../services');
 //     { versionKey: false, timestamps: true },
 // );
 
-// const Contact = model('contact', contact);
+// const Contact = model('contact', contactSchema);
 
 
 const add = async (req, res, next) => {
