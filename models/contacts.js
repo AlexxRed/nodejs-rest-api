@@ -3,20 +3,6 @@ const fs = require('fs/promises');
 const path = require('path');
 const contactsPath = path.join(__dirname, "contacts.json");
 
-// const process = require('process');
-const mongoose = require('mongoose');
-const dotenv = require('dotenv');
-dotenv.config()
-const {DB_HOST} = process.env
-
-mongoose.connect(DB_HOST)
-  .then(()=>console.log("Database connection successful"))
-  .catch(error => { 
-    console.log(error.message);
-    process.exit(1)
-  })
-  // .finally(() => process.exit(1));
-
 
 async function updateContactData(contact) {
   await fs.writeFile(contactsPath, JSON.stringify(contact, null, 2));
