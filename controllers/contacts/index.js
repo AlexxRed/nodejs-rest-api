@@ -3,6 +3,7 @@ const getById = require('./getById');
 const add = require('./add');
 const remove = require('./delete');
 const updateById = require('./updateById');
+const updateByFavorite = require('./updateByFavorite');
 
 
 module.exports = {
@@ -10,5 +11,6 @@ module.exports = {
     getById,
     add,
     remove,
-    updateById
+    updateById,
+    updateByFavorite
 }
