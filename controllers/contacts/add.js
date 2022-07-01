@@ -32,7 +32,8 @@ const add = async (req, res, next) => {
         if (error) {
         throw createError(400, error.message)
         }
-
+        
+        // const {_id:owner} = req.user
         const result = await Contact.create(req.body)
         res.status(201).json(result)
     } catch (error) {
