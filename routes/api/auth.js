@@ -1,3 +1,12 @@
 const express = require("express")
+
+const ctrl = require("../../controllers/auth")
+
+const {ctrlWrapper} = require('../../services')
+
 const router = express.Router()
-console.log(router);
+
+// signup
+router.post("/register", ctrlWrapper(ctrl.register))
+
+module.exports = router
