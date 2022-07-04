@@ -9,7 +9,7 @@ const authenticate = require("../../middlewares/authenticate")
 
 const router = express.Router()
 
-router.get('/', ctrlWrapper(ctrl.getAll))
+router.get('/',authenticate, ctrlWrapper(ctrl.getAll))
 
 router.get('/:contactId', ctrl.getById)
 

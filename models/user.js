@@ -31,7 +31,7 @@ const userSchema = new Schema(
 const User = model("user", userSchema)
 
 const joiUserRegisterSchema = Joi.object({
-    name: Joi.string().required(),
+    name: Joi.string(),
     email: Joi.string().email().required(),
     subscription: Joi.string().required(),
     password: Joi.string()
