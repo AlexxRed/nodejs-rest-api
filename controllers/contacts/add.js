@@ -33,8 +33,8 @@ const add = async (req, res, next) => {
         throw createError(400, error.message)
         }
         
-        // const {_id:owner} = req.user
-        const result = await Contact.create(req.body)
+        const {_id:owner} = req.user
+        const result = await Contact.create({...req.body, owner})
         res.status(201).json(result)
     } catch (error) {
         next(error)

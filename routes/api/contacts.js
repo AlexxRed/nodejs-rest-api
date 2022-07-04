@@ -1,7 +1,8 @@
 
 const ctrl = require('../../controllers/contacts')
 const express = require('express');
-const {ctrlWrapper} = require('../../services')
+const { ctrlWrapper } = require('../../services')
+const authenticate = require("../../middlewares/authenticate")
 
 
 
@@ -12,7 +13,7 @@ router.get('/', ctrlWrapper(ctrl.getAll))
 
 router.get('/:contactId', ctrl.getById)
 
-router.post('/', ctrl.add)
+router.post('/', authenticate, ctrl.add)
 
 router.delete('/:contactId', ctrl.remove)
 
