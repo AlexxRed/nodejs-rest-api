@@ -20,10 +20,10 @@ req.user = user;
 
 const {SECRET_KEY} = process.env;
 
-const authenticate = async(res, req, next) => {
+const authenticate = async (req, res, next) => {
+    const { authorization = "" } = req.headers;
+    const [bearer, token] = authorization.split(" ");
     try {
-        const {authorization = ""} = req.headers;
-        const [bearer, token] = authorization.split(" ");
         if(bearer !== "Bearer") {
             throw createError(401);
         }
@@ -44,4 +44,26 @@ const authenticate = async(res, req, next) => {
     }
 }
 
-module.exports = authenticate
+// const authenticate = async (req, res, next) => {
+//     const {authorization = ""} = req.headers;
+//     const [bearer, token] = authorization.split(" ");
+//     try {
+//         if (bearer !== "Bearer") {
+//         throw createError(401);
+//         }
+//         const {id} = jwt.verify(token, SECRET_KEY);
+//         const user = await User.findById(id);
+//         if (!user || !user.token) {
+//         throw createError(401);
+//         }
+//         req.user = user;
+//         next();
+//     } catch (error) {
+//         if (error.message === "Invalid signature") {
+//         error.status = 401;
+//         }
+//         next(error);
+//     }
+// };
+
+module.exports = authenticate;
