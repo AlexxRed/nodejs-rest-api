@@ -8,6 +8,8 @@ const validation = require("../../middlewares/validation")
 
 const authenticate = require("../../middlewares/authenticate")
 
+const upload = require("../../middlewares/upload")
+
 const {joiUserRegisterSchema, joiUserLoginSchema} = require("../../models")
 
 const router = express.Router()
@@ -21,5 +23,12 @@ router.post("/users/login", validation(joiUserLoginSchema), ctrlWrapper(ctrl.log
 router.get("/current", authenticate, ctrlWrapper(ctrl.getCurrent));
 
 router.get("/logout", authenticate, ctrlWrapper(ctrl.logout));
+
+router.patch(
+    "/avatars",
+    authenticate,
+    upload.single("avatar"),
+    ctrlWrapper(ctrl.updateAvatar)
+);
 
 module.exports = router
